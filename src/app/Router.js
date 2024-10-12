@@ -24,20 +24,26 @@ export default () => {
       rootDiv.innerHTML = ROUTES({ pathname })
       document.body.style.backgroundColor="#0E5AE5"
       new Login({ document, localStorage, onNavigate, PREVIOUS_LOCATION, store })
-    } else if (pathname === ROUTES_PATH['Bills']) {
+    } else if (pathname === ROUTES_PATH['Bills'])
+      {
       rootDiv.innerHTML = ROUTES({ pathname, loading: true })
+
+      const bills = new Bills({ document, onNavigate, store, localStorage })
+
       const divIcon1 = document.getElementById('layout-icon1')
       const divIcon2 = document.getElementById('layout-icon2')
       divIcon1.classList.add('active-icon')
       divIcon2.classList.remove('active-icon')
-      const bills = new Bills({ document, onNavigate, store, localStorage  })
+    
       bills.getBills().then(data => {
         rootDiv.innerHTML = BillsUI({ data })
+
+        new Bills({ document, onNavigate, store, localStorage })
+
         const divIcon1 = document.getElementById('layout-icon1')
         const divIcon2 = document.getElementById('layout-icon2')
         divIcon1.classList.add('active-icon')
         divIcon2.classList.remove('active-icon')
-        new Bills({ document, onNavigate, store, localStorage })
       }).catch(error => {
         rootDiv.innerHTML = ROUTES({ pathname, error })
       })
